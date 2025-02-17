@@ -1,6 +1,7 @@
 class Toolbar {
     constructor() {
         this.height = 40;
+        this.toolbarSizeX = 160;  // Added constant for size buttons X position
         this.tools = {
             brushes: new Brushes(),
             eraser: new Eraser()
@@ -8,10 +9,12 @@ class Toolbar {
         this.currentTool = this.tools.brushes;
         
         this.toolButtons = {
-
             brush: { x: 10, y: 10, width: 60, height: 20 },
             eraser: { x: 80, y: 10, width: 60, height: 20 }
         };
+
+        this.colorPalette = new ColorPalette();  // Add this line
+        this.colorPaletteX = 300;  // Position for color palette
         
         this.clearButton = {
             x: width - 70,
@@ -65,6 +68,10 @@ class Toolbar {
         rect(this.clearButton.x, this.clearButton.y, this.clearButton.width, this.clearButton.height);
         fill(0);
         text('Clear', this.clearButton.x + this.clearButton.width/2, this.clearButton.y + this.clearButton.height/2);
+
+        if (this.currentTool === this.tools.brushes) {
+            this.colorPalette.drawPalette(this.colorPaletteX);
+        }
              
         this.updateCursor(); 
     }
@@ -86,22 +93,32 @@ class Toolbar {
                 rect(0, 0, width-1, height-1);
                 return;
             }
+
+
+            if (this.currentTool === this.tools.brushes) {
+                if (this.colorPalette.handleClick(x, y, this.colorPaletteX)) {
+                    // Update brush color when a color is selected
+                    this.tools.brushes.setColor(this.colorPalette.getCurrentColor());
+                    this.draw();
+                    return;
+                }
+            }
             
-            // tool selection had assistance from chatgpt here
+            // tool selection
             if (x > this.toolButtons.brush.x && x < this.toolButtons.brush.x + this.toolButtons.brush.width &&
                 y > this.toolButtons.brush.y && y < this.toolButtons.brush.y + this.toolButtons.brush.height) {
                 this.currentTool = this.tools.brushes;
                 this.draw();
-
             } else if (x > this.toolButtons.eraser.x && x < this.toolButtons.eraser.x + this.toolButtons.eraser.width &&
                        y > this.toolButtons.eraser.y && y < this.toolButtons.eraser.y + this.toolButtons.eraser.height) {
                 this.currentTool = this.tools.eraser;
                 this.draw();
             }
             
-            this.currentTool.handleClick(x, y);
+            // Pass the toolbar X position to the handleClick method
+            this.currentTool.handleClick(x, y, this.toolbarSizeX);
             
-            //redraw canvas
+            // redraw canvas border
             stroke(0);
             strokeWeight(2);
             noFill();
