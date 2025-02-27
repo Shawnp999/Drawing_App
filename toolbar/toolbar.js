@@ -1,7 +1,7 @@
 class Toolbar {
     constructor() {
         this.height = 40;
-        this.toolbarSizeX = 160;  // Added constant for size buttons X position
+        this.toolbarSizeX = 160;
         this.tools = {
             brushes: new Brushes(),
             eraser: new Eraser()
@@ -13,8 +13,8 @@ class Toolbar {
             eraser: { x: 80, y: 10, width: 60, height: 20 }
         };
 
-        this.colorPalette = new ColorPalette();  // Add this line
-        this.colorPaletteX = 300;  // Position for color palette
+        this.colorPalette = new ColorPalette();  
+        this.colorPaletteX = 300; 
         
         this.clearButton = {
             x: width - 70,
@@ -28,13 +28,16 @@ class Toolbar {
     }
 
     updateCursor() {
+
         if (mouseY > this.height) {  // show the tool cursor when below the toolbar
+
             if (this.currentTool === this.tools.brushes) {
                 cursor(pencilCursor, pencilCursor.width/2, pencilCursor.height/2);
             } else if (this.currentTool === this.tools.eraser) {
                 cursor(eraserCursor, eraserCursor.width/2, eraserCursor.height/2);
             }
         } else {
+
             cursor(ARROW); //default cursor in toolbar area
         }
     }
@@ -81,7 +84,9 @@ class Toolbar {
     }
 
     handleClick(x, y) {
+
         if (y < this.height) {
+
             // handle clear
             if (x > this.clearButton.x && x < this.clearButton.x + this.clearButton.width &&
                 y > this.clearButton.y && y < this.clearButton.y + this.clearButton.height) {
@@ -94,10 +99,8 @@ class Toolbar {
                 return;
             }
 
-
             if (this.currentTool === this.tools.brushes) {
                 if (this.colorPalette.handleClick(x, y, this.colorPaletteX)) {
-                    // Update brush color when a color is selected
                     this.tools.brushes.setColor(this.colorPalette.getCurrentColor());
                     this.draw();
                     return;
@@ -115,8 +118,8 @@ class Toolbar {
                 this.draw();
             }
             
-            // Pass the toolbar X position to the handleClick method
-            this.currentTool.handleClick(x, y, this.toolbarSizeX);
+            // Pass the toolbar X position and toolbar instance to the handleClick method
+            this.currentTool.handleClick(x, y, this.toolbarSizeX, this);
             
             // redraw canvas border
             stroke(0);

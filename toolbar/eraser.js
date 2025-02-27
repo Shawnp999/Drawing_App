@@ -8,7 +8,9 @@ class Eraser {
     }
 
     drawToolbar(x, y) {
+
         for (let i = 0; i < this.sizes.length; i++) {
+
             fill(this.currentSize === this.sizes[i] ? '#ADE' : 255);
             rect(x + (i * this.buttonSpacing), y, this.buttonWidth, this.buttonHeight);
             
@@ -22,12 +24,16 @@ class Eraser {
         }
     }
 
-    handleClick(x, y, toolbarX) {  // Added toolbarX parameter
+    handleClick(x, y, toolbarX, toolbar) { 
+
         for (let i = 0; i < this.sizes.length; i++) {
+            
             let buttonX = toolbarX + (i * this.buttonSpacing);
             
             if (x > buttonX && x < buttonX + this.buttonWidth) {
                 this.currentSize = this.sizes[i];
+                // redraw toolbar immediately after state change
+                toolbar.draw();
                 break;
             }
         }
