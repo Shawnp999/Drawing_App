@@ -28,17 +28,23 @@ class Toolbar {
     }
 
     updateCursor() {
-
         if (mouseY > this.height) {  // show the tool cursor when below the toolbar
-
             if (this.currentTool === this.tools.brushes) {
-                cursor(pencilCursor, pencilCursor.width/2, pencilCursor.height/2);
+                // Show pencil cursor, hide eraser cursor
+                this.tools.brushes.pencilCursor.style.display = 'block';
+                this.tools.eraser.eraserCursor.style.display = 'none';
+                document.body.style.cursor = 'none';
             } else if (this.currentTool === this.tools.eraser) {
-                cursor(eraserCursor, eraserCursor.width/2, eraserCursor.height/2);
+                // Show eraser cursor, hide pencil cursor
+                this.tools.brushes.pencilCursor.style.display = 'none';
+                this.tools.eraser.eraserCursor.style.display = 'block';
+                document.body.style.cursor = 'none';
             }
         } else {
-
-            cursor(ARROW); //default cursor in toolbar area
+            // In toolbar area, hide both custom cursors
+            this.tools.brushes.pencilCursor.style.display = 'none';
+            this.tools.eraser.eraserCursor.style.display = 'none';
+            document.body.style.cursor = 'default';
         }
     }
 

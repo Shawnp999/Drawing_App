@@ -1,7 +1,7 @@
 class Brushes {
     constructor() {
-        this.sizes = [2, 5, 10]; // Brush sizes
-        this.currentSize = 5; // Default brush size
+        this.sizes = [3, 6, 10]; // Brush sizes
+        this.currentSize = 6; // Default brush size
         this.buttonWidth = 30;
         this.buttonHeight = 20;
         this.buttonSpacing = 40;
@@ -9,7 +9,7 @@ class Brushes {
         
         // Create and style the pencil cursor
         this.pencilCursor = document.createElement('img');
-        this.pencilCursor.src = 'assets/pencil.png'; // Path to your pencil image
+        this.pencilCursor.src = 'assets/pencil.png'; 
         this.pencilCursor.style.position = 'absolute';
         this.pencilCursor.style.pointerEvents = 'none';
         this.pencilCursor.style.zIndex = '1000';
@@ -43,7 +43,7 @@ class Brushes {
 
             if (x > buttonX && x < buttonX + this.buttonWidth) {
                 this.currentSize = this.sizes[i];
-                this.updateCursorSize(); // Update cursor size on brush size change
+                this.updateCursorSize();
                 toolbar.draw();
                 break;
             }
@@ -62,13 +62,13 @@ class Brushes {
 
     updateCursorSize() {
         const sizeShiftMap = {
-            2: -3,
-            5: -14,
-            10: -30,
+            3: -11,
+            6: -22,
+            10: -38,
         };
     
-        this.pencilCursor.style.width = `${this.currentSize * 3}px`;
-        this.pencilCursor.style.height = `${this.currentSize * 3}px`;
+        this.pencilCursor.style.width = `${this.currentSize * 4}px`;
+        this.pencilCursor.style.height = `${this.currentSize * 4}px`;
     
         const verticalShift = sizeShiftMap[this.currentSize] || 0;
     

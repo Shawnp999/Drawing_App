@@ -5,6 +5,35 @@ class Eraser {
         this.buttonWidth = 30;
         this.buttonHeight = 20;
         this.buttonSpacing = 40;
+        
+        // Create and style the eraser cursor
+        this.eraserCursor = document.createElement('img');
+        this.eraserCursor.src = 'assets/eraser.png'; 
+        this.eraserCursor.style.position = 'absolute';
+        this.eraserCursor.style.pointerEvents = 'none';
+        this.eraserCursor.style.zIndex = '1000';
+        this.eraserCursor.style.display = 'none'; // Initially hidden
+        document.body.appendChild(this.eraserCursor);
+        
+        this.updateCursorSize();
+    }
+
+    updateCursorSize() {
+        const sizeShiftMap = {
+            10: -15,
+            20: -30,
+            30: -45,
+        };
+    
+        this.eraserCursor.style.width = `${this.currentSize * 2}px`;
+        this.eraserCursor.style.height = `${this.currentSize * 2}px`;
+    
+        const verticalShift = sizeShiftMap[this.currentSize] || 0;
+    
+        window.addEventListener('mousemove', (e) => {
+            this.eraserCursor.style.left = `${e.clientX}px`;
+            this.eraserCursor.style.top = `${e.clientY + verticalShift}px`;
+        });
     }
 
     drawToolbar(x, y) {

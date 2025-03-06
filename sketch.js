@@ -24,7 +24,6 @@ function setup() {
 }
 
 function draw() {
-    //TODO: not working
     if (mouseIsPressed && mouseY > toolbar.height) {
         toolbar.getCurrentTool().draw();
     }
